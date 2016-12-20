@@ -30,11 +30,22 @@ static void init(void);
 static void updatematrix(void);
 static void checkrows(uint8_t col);
 static void printmatrix(void);
+static void printkeys(void);
 
 /* global variables */
 static uint8_t cols[ROWNUM] = {C0, C1, C2, C3, C4, C5, C6, C7};
 static uint8_t rows[COLNUM] = {R0, R1, R2, R3, R4, R5, R6, R7};
 static uint8_t matrix[4][14] = {0}; /* TODO fix number macros */
+static char* keymap[4][14] = {
+	{"W", "E", "R", "T", "Z", "U", "I",
+	 "O", "P", "7", "8", "9", "ZEILE", "EIN"},
+	{"A", "S", "D", "F", "G", "H", "J",
+	 "K", "L", "4", "5", "6", "Nº", "AUS"},
+	{"Q", "Y", "X", "C", "V", "B", "N",
+	 "M", "URDA", "1", "2", "3", "TAB", "CE/CM"},
+	{"↑", "TEST", "GCAN", "METH", "RKAT", "ZKAT", "̅̅EICH",
+	 "x", "NAME", "0", ".", "-", "PRINT", "ENTER"},
+};
 
 /* function definitions */
 void
@@ -102,6 +113,21 @@ printmatrix(void)
 	}
 }
 
+void
+printkeys(void)
+{
+	uint8_t m, n;
+
+	for (m = 0; m < 4; m++) {
+		for (n = 0; n < 14; n++) {
+			if (matrix[m][n])
+				printf("%s ", keymap[m][n]);
+		}
+	}
+
+	printf("\n");
+}
+
 int
 main(int argc, char *argv[])
 {
@@ -111,6 +137,7 @@ main(int argc, char *argv[])
 
 	updatematrix();
 	printmatrix();
+	printkeys();
 
 	bcm2835_close();
 	return 0;
